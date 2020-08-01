@@ -14,18 +14,32 @@ interface Movie {
     vote_average: number;
     release_date: string;
     overview: string;
+    genre_ids: object[];
+}
+
+interface Genre {
+    id: string;
+    name: string;
 }
 
 const Home: React.FC = () => {
     const [search, setSearch] = useState('');
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [genres, setGenres] = useState<Genre[]>([]);
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const response = await api.get(`search/movie?api_key=3f5c27a722111119bd0a17ecc49bbe43&language=pt-BR&query=${search}`);
+        const genres = await api.get('genre/movie/list?api_key=3f5c27a722111119bd0a17ecc49bbe43&language=pt-BR');
 
         setMovies(response.data.results);
+        setGenres(genres.data.genres);
+    }
+
+    function formatGenre(id: any) {
+        const result = genres.find(genre => genre.id === id);
+        if (result) return result.name
     }
 
     return (
@@ -67,30 +81,13 @@ const Home: React.FC = () => {
                                 </Sinopse>
                                 
                                 <Genre>
-                                    <Type>
-                                        <span>
-                                            Ação
-                                        </span>
-                                    </Type>
-
-                                    <Type>
-                                        <span>
-                                            Aventura
-                                        </span>
-                                    </Type>
-
-                                    <Type>
-                                        <span>
-                                            Comédia
-                                        </span>
-                                    </Type>
-
-                                    <Type>
-                                        <span>
-                                            Fantasia
-                                        </span>
-                                    </Type>
-
+                                    {movie.genre_ids.map(genre_id => (
+                                        <Type>
+                                            <span>
+                                                {formatGenre(genre_id)}
+                                            </span>
+                                        </Type>
+                                    ))}
                                 </Genre>
 
                             </ MovieDescription>
