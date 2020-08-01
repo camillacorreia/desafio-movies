@@ -37,6 +37,13 @@ const Home: React.FC = () => {
         setGenres(genres.data.genres);
     }
 
+    function formatDate (date: string) {
+        if (date) {
+            const [year, month, day] = date.split('-');
+            return `${day}/${month}/${year}`
+        }
+    }
+
     function formatGenre(id: any) {
         const result = genres.find(genre => genre.id === id);
         if (result) return result.name
@@ -71,7 +78,7 @@ const Home: React.FC = () => {
                                 </Percentage>
 
                                 <Date>
-                                    <span>{movie.release_date}</span>
+                                    <span>{formatDate(movie.release_date)}</span>
                                 </Date>
 
                                 <Sinopse>
