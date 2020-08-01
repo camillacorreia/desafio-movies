@@ -21,4 +21,9 @@ export default createGlobalStyle `
         color: var(--text-color);
         font-family: 'Abel', 'Lato', sans-serif;
     }
+
+    a:-webkit-any-link {
+        text-decoration: none;
+        cursor: pointer;
+    }
 `; 
