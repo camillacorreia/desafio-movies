@@ -169,6 +169,10 @@ export const Date = styled.div `
         font-family: "Lato", sans-serif;
         color: #a5a1a1;
         margin: -80px 0px 0px 69px;
+
+        @media (max-width: 320px) {
+            font-size: 16px;
+        }
     }
 `;
 
