@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
+import Pagination from '../../components/Pagination';
+
 import api from '../../services/api';
 
 import { Form, Listing, Img, FullDescription,
@@ -26,6 +28,8 @@ const Home: React.FC = () => {
     const [search, setSearch] = useState('');
     const [movies, setMovies] = useState<Movie[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
+    const [currentPag, setCurrentPag] = useState(1);
+    const [moviesPerPag] = useState(5);
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -36,6 +40,10 @@ const Home: React.FC = () => {
         setMovies(response.data.results);
         setGenres(genres.data.genres);
     }
+
+    const indexOfLastMovie = currentPag * moviesPerPag;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPag;
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
     function formatDate (date: string) {
         if (date) {
@@ -49,6 +57,10 @@ const Home: React.FC = () => {
         if (result) return result.name
     }
 
+    function paginate(pagNumber: any) {
+        return setCurrentPag(pagNumber);
+    }
+
     return (
         <>
             <Form onSubmit={handleSubmit}>
@@ -60,7 +72,7 @@ const Home: React.FC = () => {
                 />
             </ Form>
 
-            {movies.map(movie => (
+            {currentMovies.map(movie => (
                 <Link to={`/details/${movie.id}`} key={movie.id}>
                     <Listing>
                         <Img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
@@ -102,6 +114,7 @@ const Home: React.FC = () => {
                     </ Listing>
                 </ Link>
             ))}
+            <Pagination moviesPerPag={moviesPerPag} totalMovies={movies.length} paginate={paginate} currentPag={currentPag} />
         </>
     );
 };
