@@ -61,7 +61,7 @@ const Home: React.FC = () => {
             </ Form>
 
             {movies.map(movie => (
-                <Link to="/" key={movie.id}>
+                <Link to={`/details/${movie.id}`} key={movie.id}>
                     <Listing>
                         <Img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
                         
