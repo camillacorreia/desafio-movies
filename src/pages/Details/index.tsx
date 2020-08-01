@@ -38,7 +38,7 @@ interface Movie {
     genres: Genre[];
     status:string;
     spoken_languages: Language[];
-    runtime: string;
+    runtime: number;
     budget: number;
     revenue:number;
     videos: {
@@ -61,6 +61,24 @@ const Details: React.FC = () => {
             const [year, month, day] = date.split('-');
             return `${day}/${month}/${year}`
         }
+    }
+
+    function formatTime (time: number) {
+        const hours = Math.floor(time / 60);
+        const minutes = time - (hours * 60);
+        return hours > 0 ? hours + 'h  ' + minutes + 'min' : minutes + 'min';
+    }
+
+    function formatValue (value: number) {
+        let result = value+'';
+        result = result.replace(/([0-9]{2})$/g, ",$1");
+        if (result.length > 6)
+            result = result.replace(/([0-9]{3}),([0-9]{2})$/g, ".$1,$2");
+
+        if( result.length > 9)
+            result = result.replace(/([0-9]{3}).([0-9]{3}),([0-9]{2}$)/g,".$1.$2,$3");
+            
+        return result
     }
 
     return (
@@ -105,19 +123,19 @@ const Details: React.FC = () => {
                                     </div>
                                     <div>
                                         <span className="letter">Duração</span>
-                                        <span className="smaller-letter">{detail.runtime}</span>
+                                        <span className="smaller-letter">{formatTime(detail.runtime)}</span>
                                     </div>
                                     <div>
                                         <span className="letter">Orçamento</span>
-                                        <span className="smaller-letter">{detail.budget}</span>
+                                        <span className="smaller-letter">${formatValue(detail.budget)}</span>
                                     </div>
                                     <div>
                                         <span className="letter">Receita</span>
-                                        <span className="smaller-letter">{detail.revenue}</span>
+                                        <span className="smaller-letter">${formatValue(detail.revenue)}</span>
                                     </div>
                                     <div>
                                         <span className="letter">Lucro</span>
-                                        <span className="smaller-letter">$180.000.000,00</span>
+                                        <span className="smaller-letter">${formatValue(detail.revenue - detail.budget)}</span>
                                     </div>
                                 </Infor>
 
