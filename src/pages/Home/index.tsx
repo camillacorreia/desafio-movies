@@ -7,7 +7,7 @@ import api from '../../services/api';
 
 import { Form, Listing, Img, FullDescription,
     MovieHeader, MovieDescription, Percentage,
-    Date, Sinopse, Genre, Type } from './styles';
+    Date, Sinopse, Genre, Type, Error } from './styles';
 
 interface Movie {
     id: string;
@@ -26,6 +26,7 @@ interface Genre {
 
 const Home: React.FC = () => {
     const [search, setSearch] = useState('');
+    const [inputError, setInputError] = useState('');
     const [movies, setMovies] = useState<Movie[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
     const [currentPag, setCurrentPag] = useState(1);
@@ -34,11 +35,22 @@ const Home: React.FC = () => {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        if (!search) {
+            setInputError('Digite o nome do filme ou gênero');
+            return;
+        }
+
         const response = await api.get(`search/movie?api_key=3f5c27a722111119bd0a17ecc49bbe43&language=pt-BR&query=${search}`);
         const genres = await api.get('genre/movie/list?api_key=3f5c27a722111119bd0a17ecc49bbe43&language=pt-BR');
 
         setMovies(response.data.results);
         setGenres(genres.data.genres);
+        setInputError('');
+
+        // eslint-disable-next-line
+        if ((response.data.results).length == false) {
+            setInputError('Filme ou gênero não encontrado');
+        }
     }
 
     const indexOfLastMovie = currentPag * moviesPerPag;
@@ -63,7 +75,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <Form hasError={!!inputError} onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="Busque um filme por nome ou gênero..."
@@ -71,6 +83,8 @@ const Home: React.FC = () => {
                     value={search}
                 />
             </ Form>
+
+            { inputError && <Error>{inputError}</Error> }
 
             {currentMovies.map(movie => (
                 <Link to={`/details/${movie.id}`} key={movie.id}>

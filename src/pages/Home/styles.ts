@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+  
+import styled, { css } from 'styled-components';
 
-export const Form = styled.form `
+interface FormProps {
+    hasError: boolean;
+}
+
+export const Form = styled.form<FormProps> `
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +26,12 @@ export const Form = styled.form `
         @media (max-width: 338px) {
             font-size: 14px;
         }
+
+        ${(props) =>
+            props.hasError &&
+            css`
+                border-color: #C53030;
+        `}
         
         ::-moz-placeholder {
             color: #a9c6d3;
@@ -45,6 +56,15 @@ export const Form = styled.form `
             font-weight: 550;
         }
     }
+`;
+
+export const Error = styled.span `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #C53030;
+    margin: 0 auto;
+    margin-bottom: 24px;
 `;
 
 export const Listing = styled.div `
