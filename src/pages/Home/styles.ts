@@ -88,10 +88,6 @@ export const Img = styled.img `
     width: 30%;
     height: 500px;
 
-    @media (max-width: 768px) {
-        width: 40%; 
-    }
-
     @media (max-width: 687px) {
         width: 95%;
         margin: 0 auto;
@@ -105,10 +101,6 @@ export const FullDescription = styled.div `
     justify-content: flex-start;
     width: 70%;
     height: 500px;
-
-    @media (max-width: 768px) {
-        width: 60%; 
-    }
 
     @media (max-width: 687px) {
         width: 95%;
@@ -190,7 +182,7 @@ export const Date = styled.div `
         color: #a5a1a1;
         margin: -80px 0px 0px 69px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 768px) {
             font-size: 16px;
         }
     }
