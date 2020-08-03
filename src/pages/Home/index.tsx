@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Pagination from '../../components/Pagination';
 
+import { formatDate } from '../../utils';
+
 import api from '../../services/api';
 
 import { Form, Listing, Img, FullDescription,
@@ -56,13 +58,6 @@ const Home: React.FC = () => {
     const indexOfLastMovie = currentPag * moviesPerPag;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPag;
     const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-
-    function formatDate (date: string) {
-        if (date) {
-            const [year, month, day] = date.split('-');
-            return `${day}/${month}/${year}`
-        }
-    }
 
     function formatGenre(id: any) {
         const result = genres.find(genre => genre.id === id);
