@@ -124,7 +124,7 @@ export const MovieHeader = styled.div `
     color: var(--secundary-color);
     font-size: 28px;
 
-    @media (max-width: 800px) {
+    @media (max-width: 768px) {
         font-size: 20px;
     }
 

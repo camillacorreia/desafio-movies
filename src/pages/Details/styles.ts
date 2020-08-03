@@ -5,7 +5,7 @@ export const Container = styled.div `
     flex-flow: column wrap;
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 4px;
     padding: 24px;
 `;
 
